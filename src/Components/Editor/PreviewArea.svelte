@@ -6,8 +6,8 @@
 
   const { collection, keyboard } = getAppState();
   const structures = collection.structures;
-  $: reversedStructures = [...$structures].reverse()
-  $: structureCount = $structures.length
+  let reversedStructures = $derived([...$structures].reverse())
+  let structureCount = $derived($structures.length)
 </script>
 
 <div class='preview-area'>

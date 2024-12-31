@@ -8,14 +8,14 @@
   <div
     class="option"
     class:isActive={$editingMode === EditingMode.Single}
-    on:click={() => $editingMode = EditingMode.Single}
+    onclick={() => $editingMode = EditingMode.Single}
   >
     Single
   </div>
   <div
     class="option"
     class:isActive={$editingMode === EditingMode.Multi}
-    on:click={() => $editingMode = EditingMode.Multi}
+    onclick={() => $editingMode = EditingMode.Multi}
   >
     Multi
   </div>

@@ -1,7 +1,7 @@
 <script lang="ts">
-  import Layout from "./Layout.svelte";
-  import { setAppStateInContext } from '../State/AppState';
-  import MidiHandler from "./MidiHandler.svelte";
+  import Layout from "./Components/Layout.svelte";
+  import { setAppStateInContext } from './State/AppState';
+  import MidiHandler from "./Components/MidiHandler.svelte";
   
   setAppStateInContext({
     initialTonalCenter: 0,

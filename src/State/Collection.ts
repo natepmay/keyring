@@ -1,4 +1,10 @@
-import { derived, get, Readable, writable, Writable } from "svelte/store";
+import {
+  derived,
+  get,
+  type Readable,
+  writable,
+  type Writable,
+} from "svelte/store";
 import { storeWithinStructure, Structure } from "./Structure";
 import { arrayHasConsistentValues } from "../Utils/Misc";
 import { IntervalSet } from "../Utils/Music/IntervalSet";
@@ -6,7 +12,6 @@ import type { Layer } from "./Layer";
 import { filterStores } from "./storeUtils";
 
 export class Collection {
-
   structures: Writable<Structure[]> = writable([]);
 
   /**
@@ -21,9 +26,9 @@ export class Collection {
   }
 
   add(props: {
-    id?: number,
-    intervalSetBinary?: number,
-    activeLayerStore: Writable<Layer | undefined>,
+    id?: number;
+    intervalSetBinary?: number;
+    activeLayerStore: Writable<Layer | undefined>;
   }) {
     const id = props.id || this.maxId + 1;
     const structure = new Structure({
@@ -33,41 +38,45 @@ export class Collection {
       activeLayerStore: props.activeLayerStore,
     });
     this.maxId = id;
-    this.structures.update(structures => [...structures, structure]);
+    this.structures.update((structures) => [...structures, structure]);
     return structure;
   }
 
   remove(id: number) {
-    this.structures.update($s => $s.filter(s => s.id !== id));
+    this.structures.update(($s) => $s.filter((s) => s.id !== id));
   }
 
   get topStructure() {
-    return derived(this.structures, s => s[s.length - 1])
+    return derived(this.structures, (s) => s[s.length - 1]);
   }
 
   get bottomStructure() {
-    return derived(this.structures, s => s[0])
+    return derived(this.structures, (s) => s[0]);
   }
 
   get activeStructure(): Readable<Structure | undefined> {
     return derived(
-      filterStores(this.structures, structure => structure.layerData.isActive),
-      f => f[0] ?? undefined,
+      filterStores(
+        this.structures,
+        (structure) => structure.layerData.isActive
+      ),
+      (f) => f[0] ?? undefined
     );
   }
-  
+
   /**
    * This interval set represents all the intervals which the user can toggle
    * on or off.
-   * 
+   *
    * - Empty when no structure is selected for editing.
    * - Chromatic when one normal structure is selected.
    * - When the selected structure is anchored to another, return the interval
    *   set of the anchor target.
    */
   get editableIntervalSet() {
-    return storeWithinStructure(this.topStructure, s =>
-      s?.editableIntervalSet ?? IntervalSet.fromBinary(0)
+    return storeWithinStructure(
+      this.topStructure,
+      (s) => s?.editableIntervalSet ?? IntervalSet.fromBinary(0)
     );
   }
 
@@ -75,21 +84,21 @@ export class Collection {
    * Handle the user clicking on an interval ordinal within the ring.
    */
   toggleInterval(ordinal: number) {
-    const structures = get(this.structures)
-      .filter(s => get(s.computedIsEditing));
+    const structures = get(this.structures).filter((s) =>
+      get(s.computedIsEditing)
+    );
     const structuresAreConsistent = arrayHasConsistentValues(
-      structures.map(s => get(s.intervalSet).hasOrdinal(ordinal))
+      structures.map((s) => get(s.intervalSet).hasOrdinal(ordinal))
     );
     if (structuresAreConsistent) {
       // Toggle all
-      structures.forEach(structure => {
-        structure.intervalSet.update(is => is.toggleIntervalOrdinal(ordinal))
+      structures.forEach((structure) => {
+        structure.intervalSet.update((is) => is.toggleIntervalOrdinal(ordinal));
       });
-    }
-    else {
+    } else {
       // Enable all
-      structures.forEach(structure => {
-        structure.intervalSet.update(is => is.withOrdinal(ordinal))
+      structures.forEach((structure) => {
+        structure.intervalSet.update((is) => is.withOrdinal(ordinal));
       });
     }
   }
@@ -99,13 +108,12 @@ export class Collection {
    */
   static refreshStructureAssociations(structures: Structure[]) {
     let lowerStructure: Structure | undefined;
-    structures.forEach(structure => {
+    structures.forEach((structure) => {
       if (lowerStructure) {
         // When we have a sequential pair, connect them as such.
         structure.structureBelow.set(lowerStructure);
         lowerStructure.structureAbove.set(structure);
-      }
-      else {
+      } else {
         // Tell the bottom-most structure that there's nothing below it.
         structure.structureBelow.set(undefined);
       }
@@ -123,5 +131,4 @@ export class Collection {
       lowerStructure.structureAbove.set(undefined);
     }
   }
-
 }

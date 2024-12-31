@@ -6,13 +6,18 @@
   import type { Layer } from "../../State/Layer";
   import Link from "../Icon/Link.svelte";
 
-  export let layer: Layer;
+  interface Props {
+    layer: Layer;
+    children?: import('svelte').Snippet;
+  }
+
+  let { layer, children }: Props = $props();
   
   const { editingMode } = getAppState();
   
-  $: hasCheckbox = $editingMode === EditingMode.Multi;
-  $: ({ isVisible, isActive, isChecked, isAnchored } = layer.layerData);
-  $: ({ setAnchor, releaseAnchor } = layer.layerController);
+  let hasCheckbox = $derived($editingMode === EditingMode.Multi);
+  let { isVisible, isActive, isChecked, isAnchored } = $derived(layer.layerData);
+  let { setAnchor, releaseAnchor } = $derived(layer.layerController);
 </script>
 
 <div
@@ -28,7 +33,7 @@
         isRound={true}
         isAccented={true}
       />
-    {:else if $setAnchor }
+    {:else if $setAnchor}
       <LayerActionButton
         title='Force upper structure to be a subset of the lower structure'
         layerAction={setAnchor}
@@ -43,7 +48,7 @@
     on:click={() => { $isActive = true; }}
     isActive={$isActive}
   >
-    <slot />
+    {@render children?.()}
   </Preview>
 
   {#if hasCheckbox}

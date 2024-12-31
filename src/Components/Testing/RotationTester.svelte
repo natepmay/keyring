@@ -3,13 +3,13 @@
 
   const {collection} = getAppState();
 
-  $: structures = collection.structures;
-  $: structure2 = $structures.slice(1, 2)[0];
-  $: rotation = structure2.rotator.rotation;
-  $: vertices = structure2.vertices;
-  $: i = structure2.intervalSetOfAnchorTarget
-  $: binaryBelow = $i?.binary;
-  $: anchorTarget = structure2.anchorTarget;
+  let structures = $derived(collection.structures);
+  let structure2 = $derived($structures.slice(1, 2)[0]);
+  let rotation = $derived(structure2.rotator.rotation);
+  let vertices = $derived(structure2.vertices);
+  let i = $derived(structure2.intervalSetOfAnchorTarget)
+  let binaryBelow = $derived($i?.binary);
+  let anchorTarget = $derived(structure2.anchorTarget);
 
 </script>
 

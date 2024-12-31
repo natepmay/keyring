@@ -1,4 +1,4 @@
-import { derived, get, Readable, readable, writable } from "svelte/store";
+import { derived, get, type Readable, readable, writable } from "svelte/store";
 import type { Writable } from "svelte/store";
 import { IntervalSet } from "../Utils/Music/IntervalSet";
 import { XyPoint } from "../Utils/Geometry/XyPoint";
@@ -9,10 +9,10 @@ import { RotationController } from "../Components/Ring/Rotator/RotationControlle
 import { Scalar } from "../Utils/Math/Scalar";
 import type { Collection } from "./Collection";
 import {
-  AsyncLayerAction,
-  Layer,
-  LayerAction,
-  LayerController,
+  type AsyncLayerAction,
+  type Layer,
+  type LayerAction,
+  type LayerController,
   makeLayerAction,
 } from "./Layer";
 import { LayerData } from "./Layer";

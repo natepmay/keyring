@@ -1,10 +1,21 @@
 <script lang="ts">
-  export let id: string;
-  export let blurRadius = 20;
-  export let opacity = 1;
-  export let bounds = 3;
-  export let offsetX = 0;
-  export let offsetY = 0;
+  interface Props {
+    id: string;
+    blurRadius?: number;
+    opacity?: number;
+    bounds?: number;
+    offsetX?: number;
+    offsetY?: number;
+  }
+
+  let {
+    id,
+    blurRadius = 20,
+    opacity = 1,
+    bounds = 3,
+    offsetX = 0,
+    offsetY = 0
+  }: Props = $props();
 </script>
 
 <filter

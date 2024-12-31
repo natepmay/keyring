@@ -1,9 +1,13 @@
 <script lang="ts">
   import type { XyPoint } from "../../../Utils/Geometry/XyPoint";
 
-  export let point: XyPoint;
-  export let radius: number;
-  export let fill: string;
+  interface Props {
+    point: XyPoint;
+    radius: number;
+    fill: string;
+  }
+
+  let { point, radius, fill }: Props = $props();
   
 </script>
 

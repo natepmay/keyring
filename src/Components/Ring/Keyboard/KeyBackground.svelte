@@ -4,9 +4,13 @@
   import { geometry } from "../geometry";
   import Arc from "./Arc.svelte";
 
-  export let note: Note;
+  interface Props {
+    note: Note;
+  }
 
-  $: transform = `rotate(${Angle.iToD(note.id)})`;
+  let { note }: Props = $props();
+
+  let transform = $derived(`rotate(${Angle.iToD(note.id)})`);
 </script>
 
 <g class="key-background" {transform}>

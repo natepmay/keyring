@@ -1,5 +1,5 @@
-import { Point } from './Point';
-import { RCoordinate, PrPoint } from "./PrPoint";
+import { Point } from "./Point";
+import { type RCoordinate, PrPoint } from "./PrPoint";
 import { Angle } from "./Angle";
 import { CustomMath } from "../Math/CustomMath";
 
@@ -22,11 +22,10 @@ export type IrPointArray = [ICoordinate, RCoordinate];
  * contrast with polar which puts `phi = 0` at the right most part of the
  * coordinate system).
  *
- * As `i` increases, we move clockwise (in contrast to polar, which moves 
+ * As `i` increases, we move clockwise (in contrast to polar, which moves
  * counter-clockwise).
  */
 export class IrPoint extends Point {
-
   /**
    * Create a new point in IR space
    */
@@ -43,8 +42,10 @@ export class IrPoint extends Point {
   }
 
   roughlyEquals(irPoint: IrPoint) {
-    return CustomMath.valuesAreWithinThreshold(this.i, irPoint.i) && 
-      CustomMath.valuesAreWithinThreshold(this.r, irPoint.r);
+    return (
+      CustomMath.valuesAreWithinThreshold(this.i, irPoint.i) &&
+      CustomMath.valuesAreWithinThreshold(this.r, irPoint.r)
+    );
   }
 
   /**
@@ -83,5 +84,4 @@ export class IrPoint extends Point {
   plusR(r: number) {
     return this.plus(new IrPoint(0, r));
   }
-
 }

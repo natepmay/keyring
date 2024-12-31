@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { NoteSet } from "../../../Utils/Music/NoteSet";
   import Key from "./Key.svelte";
   import { Angle } from "../../../Utils/Geometry/Angle";

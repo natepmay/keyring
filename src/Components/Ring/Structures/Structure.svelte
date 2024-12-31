@@ -3,28 +3,33 @@
   import Marker from './Marker.svelte';
   import Segment from './Segment.svelte';
 
-  export let controller: StructureController;
-  /**
+  
+  interface Props {
+    controller: StructureController;
+    /**
    * 0 = the top most layer
    * 1 = one layer below the top
    * ...
    */
-  export let positionFromTop: number = 0;
-  export let isPreview: boolean = false;
+    positionFromTop?: number;
+    isPreview?: boolean;
+  }
 
-  $: ({
+  let { controller, positionFromTop = 0, isPreview = false }: Props = $props();
+
+  let {
     layerData,
     segmentLines,
     vertices,
     isEmpty,
     hasAnchorTarget
-  } = controller);
-  $: isVisible = layerData.isVisible;
-  $: thickness = 35 + positionFromTop * 20;
-  $: lightness = 55 - positionFromTop * 10;
-  $: markerRadius = 20 + positionFromTop * 12;
-  $: opacity = 1 - positionFromTop * 0.2;
-  $: markerColor = `hsl(0, 0%, ${56 - positionFromTop * 16}%)`;
+  } = $derived(controller);
+  let isVisible = $derived(layerData.isVisible);
+  let thickness = $derived(35 + positionFromTop * 20);
+  let lightness = $derived(55 - positionFromTop * 10);
+  let markerRadius = $derived(20 + positionFromTop * 12);
+  let opacity = $derived(1 - positionFromTop * 0.2);
+  let markerColor = $derived(`hsl(0, 0%, ${56 - positionFromTop * 16}%)`);
 
 </script>
 

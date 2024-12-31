@@ -1,8 +1,15 @@
 <script lang='ts'>
+  import { preventDefault, stopPropagation } from 'svelte/legacy';
+
   import { createEventDispatcher } from "svelte";
   import ShadowFilter from "../Ring/ShadowFilter.svelte";
 
-  export let isActive: boolean;
+  interface Props {
+    isActive: boolean;
+    children?: import('svelte').Snippet;
+  }
+
+  let { isActive, children }: Props = $props();
 
   const viewBox = (() => {
     const boxSize = 1000;
@@ -16,8 +23,8 @@
 <div
   class='preview'
   class:isActive
-  on:touchstart|preventDefault|stopPropagation={click}
-  on:mousedown|preventDefault|stopPropagation={click}
+  ontouchstart={stopPropagation(preventDefault(click))}
+  onmousedown={stopPropagation(preventDefault(click))}
 >
   <svg {viewBox} >
     <ShadowFilter
@@ -27,7 +34,7 @@
       offsetY={2}
       opacity={1}
     />
-    <slot />
+    {@render children?.()}
     <circle r={470} class="outline"/>
   </svg>
 </div>

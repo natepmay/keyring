@@ -7,17 +7,21 @@
   import { geometry } from "../geometry";
   import Arc from "./Arc.svelte";
 
-  export let note: Note;
-  export let isPreview: boolean = false;
+  interface Props {
+    note: Note;
+    isPreview?: boolean;
+  }
+
+  let { note, isPreview = false }: Props = $props();
 
   const { lightingSystem } = getAppState();
 
-  $: transform = `rotate(${Angle.iToD(note.id)})`;
-  $: isWhite = note.color === "white";
-  $: isBlack = note.color === "black";
-  $: light = lightingSystem.lights.get(getLightIdForNote(note));
-  $: hasHighlightStore = light ? light.isOn : readable(false, () => {});
-  $: hasHighlight = $hasHighlightStore;
+  let transform = $derived(`rotate(${Angle.iToD(note.id)})`);
+  let isWhite = $derived(note.color === "white");
+  let isBlack = $derived(note.color === "black");
+  let light = $derived(lightingSystem.lights.get(getLightIdForNote(note)));
+  let hasHighlightStore = $derived(light ? light.isOn : readable(false, () => {}));
+  let hasHighlight = $derived($hasHighlightStore);
 </script>
 
 <g class="key" class:isWhite class:isBlack class:hasHighlight {transform}>

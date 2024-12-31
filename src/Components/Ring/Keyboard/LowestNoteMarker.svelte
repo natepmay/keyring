@@ -8,7 +8,7 @@
 
   const ordinal = !!keyboard ? keyboard.lowestNoteOrdinal : writable(0);
   
-  $: transform = `rotate(${Angle.iToD($ordinal)})`;
+  let transform = $derived(`rotate(${Angle.iToD($ordinal)})`);
 </script>
 
 <g class='lowest-note-marker' {transform} >

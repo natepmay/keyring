@@ -1,14 +1,29 @@
 <script lang="ts">
+  import { preventDefault, stopPropagation } from 'svelte/legacy';
+
   import { createEventDispatcher } from "svelte";
 
-  export let icon               : any;
-  export let isDisabled         : boolean            = false;
-  export let title              : string | undefined = undefined;
-  export let label              : string | undefined = undefined;
-  export let transform          : string | undefined = undefined;
-  export let isRound            : boolean = false;
-  export let isAccented         : boolean = false;
-  export let hasBackground      : boolean = true;
+  interface Props {
+    icon: any;
+    isDisabled?: boolean;
+    title?: string | undefined;
+    label?: string | undefined;
+    transform?: string | undefined;
+    isRound?: boolean;
+    isAccented?: boolean;
+    hasBackground?: boolean;
+  }
+
+  let {
+    icon,
+    isDisabled = false,
+    title = undefined,
+    label = undefined,
+    transform = undefined,
+    isRound = false,
+    isAccented = false,
+    hasBackground = true
+  }: Props = $props();
 
   const dispatch = createEventDispatcher();
   const click = () => {
@@ -17,6 +32,8 @@
     }
     dispatch('click');
   };
+
+  const SvelteComponent = $derived(icon);
 </script>
 
 <div
@@ -25,13 +42,13 @@
   class:isRound
   class:isAccented
   class:hasBackground
-  on:touchstart|preventDefault|stopPropagation={click}
-  on:mousedown|preventDefault|stopPropagation={click}
+  ontouchstart={stopPropagation(preventDefault(click))}
+  onmousedown={stopPropagation(preventDefault(click))}
   role='button'
   {title}
 >
   <div class='icon' style={transform ? `transform: ${transform}` : undefined}>
-    <svelte:component this={icon} />
+    <SvelteComponent />
   </div>
   {#if label}
     <div class="label">{label}</div>

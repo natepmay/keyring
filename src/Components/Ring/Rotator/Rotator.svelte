@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { nonpassive } from 'svelte/legacy';
+
   import type { RotationController } from './RotationController';
   import { Scalar } from '../../../Utils/Math/Scalar';
   import { XyPoint } from '../../../Utils/Geometry/XyPoint';
@@ -23,31 +25,36 @@
     return new XyPoint(r.x + r.width/2, r.y + r.height/2);
   };
 
-  /**
+  
+  const {rotation, currentDetent, isRotating} = controller;
+  
+  
+
+  
+
+  
+  interface Props {
+    /**
    * This is a bit weird, but some of the state of each rotator instance needs
    * to be accessible broadly throughout the app, so we store that state in
    * Rotator's parent component and then pass a reference to it into the
    * Rotator instance upon instantiation. Here's where that state gets passed
    * in.
    */
-  export let controller: RotationController;
-  const {rotation, currentDetent, isRotating} = controller;
-  
-  /**
+    controller: RotationController;
+    /**
    * When true the user will be able to rotate the object. Defaults to true.
    */
-  export let isRotatable = true as boolean;
-
-  /**
+    isRotatable?: any;
+    /**
    * This function will be executed after the user finishes rotating the object.
    * 
    * @param restingRotation
    * The rotation value after the user has released the object, and (if detents
    * are provided) after the object has come to rest at one of the detents.
    */
-  export let onRotationRest = (restingRotation: number) => {};
-
-  /**
+    onRotationRest?: any;
+    /**
    * If an array of detent numbers are given, then the rotated object will only
    * be able to rest at one of those detents. These are essentially valid
    * resting rotation values. The user will still be able to rotate the object
@@ -63,7 +70,17 @@
    * Would mean the user could only rotate the object to interval 4 (major 3rd)
    * and 7 (perfect 5th).
    */
-  export let detents = undefined as number[] | undefined;
+    detents?: any;
+    children?: import('svelte').Snippet;
+  }
+
+  let {
+    controller,
+    isRotatable = true as boolean,
+    onRotationRest = (restingRotation: number) => {},
+    detents = undefined as number[] | undefined,
+    children
+  }: Props = $props();
 
   /**
    * The point (in page space) around which the object rotates. Null when we
@@ -233,13 +250,13 @@
 
 <g
   transform={`rotate(${Angle.iToD($rotation)})`}
-  on:mousedown={isRotatable ? startRotating : undefined}
-  on:touchstart|nonpassive={isRotatable ? startRotating : undefined}
+  onmousedown={isRotatable ? startRotating : undefined}
+  use:nonpassive={['touchstart', () => isRotatable ? startRotating : undefined]}
   class:isRotatable
   class:isRotating={$isRotating}
   class:isOscillating={isRotatable && !$isRotating}
 >
-  <slot></slot>
+  {@render children?.()}
 </g>
 
 <style>

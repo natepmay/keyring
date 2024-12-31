@@ -1,6 +1,6 @@
 <script lang="ts">
   import { getAppState } from "../State/AppState";
-  import WebMidi from "webmidi";
+  import { WebMidi } from "webmidi";
 
   const {soundPlayer} = getAppState();
   

@@ -1,16 +1,26 @@
 <script lang="ts">
   import { IrPoint } from '../../../Utils/Geometry/IrPoint';
 
-  let className = undefined as string | undefined;
-  export {className as class};
-  export let interval: number;
-  export let startRadius: number;
-  export let endRadius: number;
-  export let strokeWidth: number | undefined = undefined;
+  
+  interface Props {
+    class?: any;
+    interval: number;
+    startRadius: number;
+    endRadius: number;
+    strokeWidth?: number | undefined;
+  }
 
-  $: start = (new IrPoint(interval, startRadius)).toXy();
-  $: end = (new IrPoint(interval, endRadius)).toXy();
-  $: d =`M ${start.x} ${start.y} L ${end.x} ${end.y}`;
+  let {
+    class: className = undefined as string | undefined,
+    interval,
+    startRadius,
+    endRadius,
+    strokeWidth = undefined
+  }: Props = $props();
+
+  let start = $derived((new IrPoint(interval, startRadius)).toXy());
+  let end = $derived((new IrPoint(interval, endRadius)).toXy());
+  let d =$derived(`M ${start.x} ${start.y} L ${end.x} ${end.y}`);
 
 </script>
 

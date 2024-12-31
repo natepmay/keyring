@@ -1,15 +1,25 @@
 <script lang="ts">
   import type { XyLine } from "../../../Utils/Geometry/Line";
 
-  export let line: XyLine;
-  export let thickness: number;
-  export let lightness: number;
-  export let opacity: number;
-  export let isDashed: boolean = false;
+  interface Props {
+    line: XyLine;
+    thickness: number;
+    lightness: number;
+    opacity: number;
+    isDashed?: boolean;
+  }
+
+  let {
+    line,
+    thickness,
+    lightness,
+    opacity,
+    isDashed = false
+  }: Props = $props();
   
-  $: d =`M ${line.start.x} ${line.start.y} L ${line.end.x} ${line.end.y}`;
-  $: stroke = `hsl(${line.hue}, 100%, ${lightness}%)`;
-  $: dashArray = isDashed ? `${thickness * 2} ${thickness}` : undefined
+  let d =$derived(`M ${line.start.x} ${line.start.y} L ${line.end.x} ${line.end.y}`);
+  let stroke = $derived(`hsl(${line.hue}, 100%, ${lightness}%)`);
+  let dashArray = $derived(isDashed ? `${thickness * 2} ${thickness}` : undefined)
 
 </script>
 

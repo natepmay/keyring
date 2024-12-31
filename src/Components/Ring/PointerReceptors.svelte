@@ -7,8 +7,8 @@
   const { collection } = getAppState();
   const { editableIntervalSet } = collection;
 
-  $: intervalSet = $editableIntervalSet ?? IntervalSet.fromBinary(0);
-  $: ordinals = intervalSet.ordinals;
+  let intervalSet = $derived($editableIntervalSet ?? IntervalSet.fromBinary(0));
+  let ordinals = $derived(intervalSet.ordinals);
 </script>
 
 <g class='pointer-receptors'>

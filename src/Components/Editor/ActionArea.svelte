@@ -15,7 +15,7 @@ import Star from "../Icon/Star.svelte";
 
 const { unifiedLayerController, unifiedLayerData } = getAppState();
 
-$: ({
+let {
   show,
   hide,
   clear,
@@ -25,7 +25,7 @@ $: ({
   stop,
   rotateCw,
   rotateCcw,
-  } = $unifiedLayerController);
+  } = $derived($unifiedLayerController);
 
 const { isVisible, isPlaying } = unifiedLayerData;
 
