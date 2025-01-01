@@ -53,7 +53,7 @@
   }
   .logo {
     width: 5em;
-    display: flex;
+    /* display: flex; */
     align-items: center;
   }
   .info {
