@@ -1,0 +1,98 @@
+@font-face {
+  font-family: 'Academico';
+  src: url('/fonts/Academico_regular.woff2') format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Academico';
+  src: url('/fonts/Academico_italic.woff2') format("woff2");
+  font-weight: normal;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Academico';
+  src: url('/fonts/Academico_bold.woff2') format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Academico';
+  src: url('/fonts/Academico_bold_italic.woff2') format("woff2");
+  font-weight: 700;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/Inter_regular.woff2') format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/Inter_bold.woff2') format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/Inter_italic.woff2') format("woff2");
+  font-weight: normal;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/Inter_bold_italic.woff2') format("woff2");
+  font-weight: 700;
+  font-style: italic;
+}
+
+
+.serif {
+  font-family: 'Academico', serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  font-family: 'Inter', sans-serif;
+  --white-key-color: #EEE;
+  --black-key-color: #111111;
+  --key-divider-color: #CBCBCB;
+  --key-highlight-color: rgba(175, 107, 247, 0.5);
+  --panel-bg-color: #131313;
+  --button-bg-color: #2b2b2b;
+  --app-bg-color: #212121;
+  --gold: #ebbe0c;
+  --small-border-radius: 0.3em;
+  --border-thickness: 0.1em;
+  --shadow: 0 0 0.6em rgba(0, 0, 0, 0.2);
+}
+
+body {
+  background: var(--app-bg-color);
+  padding: 0;
+  margin: 0;
+  font-size: calc(max(1.9vh, 1.9vw));
+  overscroll-behavior: none;
+}
+
+body * {
+  font-size: inherit;
+  font-family: inherit;
+}
+
+svg text {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: inherit;
+}
+
+svg text::selection {
+  background: none;
+}
